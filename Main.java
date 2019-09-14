@@ -7,7 +7,8 @@ public class Main {
 	private int destination;
 	private Mode searchType;
 	private bool extended;
-	private String fileName;
+	private File file;
+	private Graph graph;
 
 	public static void main(String[] args) {
 		extended = false;
@@ -26,9 +27,23 @@ public class Main {
 				extended = true;	
 			}
 			else {
-				fileName = args[i];
+				try {
+					file = new File(args[i]);
+				} catch (IOException e) {
+					System.out.println("File not found");
+					e.printStackTrace();
+				}
 			}
 		}
-
+		graph = new Graph(file);
+		search();
+	}
+	
+	private void search() {
+		if (searchType == Mode.BFS) {
+			new BFS(destination, graph, extended);
+		} else {
+			new DFS(destination, graph, extended);
+		}
 	}
 }
